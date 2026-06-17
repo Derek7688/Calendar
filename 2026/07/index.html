@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026년 7월 수업 캘린더</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700&display=swap');
+        body { font-family: 'Pretendard', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen p-4 md:p-8 flex flex-col items-center justify-center">
+
+    <div class="max-w-4xl w-full bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-100">
+        
+        <div class="bg-slate-950 p-6 text-white flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div class="text-center sm:text-left">
+                <h1 class="text-2xl font-black tracking-wide">2026 JULY</h1>
+                <p class="text-slate-400 text-xs mt-1">영출어람 월수반 & 화목반 강의 일정</p>
+            </div>
+            <a href="https://omniscient-ship-112.notion.site/Month-A-37a0bc84f514808ab9fcf06d501c73e4" target="_blank" 
+               class="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold text-sm px-5 py-3 rounded-xl shadow-lg shadow-blue-900/20 transition-all transform hover:-translate-y-0.5 active:translate-y-0">
+                <span>📁 7월 영출어람 자료</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 6H6a2 2 2 0 00-2 2v10a2 2 2 0 002 2h10a2 2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+            </a>
+        </div>
+
+        <div class="p-6">
+            <div class="grid grid-cols-7 gap-2 text-center text-xs font-bold uppercase tracking-wider text-slate-400 mb-4">
+                <div class="text-red-500">Sun</div>
+                <div>Mon</div>
+                <div>Tue</div>
+                <div>Wed</div>
+                <div>Thu</div>
+                <div>Fri</div>
+                <div class="text-blue-500">Sat</div>
+            </div>
+
+            <div id="calendar-days" class="grid grid-cols-7 gap-2"></div>
+        </div>
+
+        <div class="bg-slate-50 px-6 py-3 border-t border-slate-100 flex justify-center gap-6 text-xs font-medium">
+            <div class="flex items-center gap-1.5">
+                <span class="w-3 h-3 bg-blue-50 border border-blue-200 rounded"></span>
+                <span class="text-slate-600">영출어람 월수반</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+                <span class="w-3 h-3 bg-purple-50 border border-purple-200 rounded"></span>
+                <span class="text-slate-600">영출어람 화목반</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 고정된 강의 스케줄 데이터
+        const scheduleData = {
+            '2026-07-01': { type: '월수', text: '영출어람<br>월수반 1강' },
+            '2026-07-02': { type: '화목', text: '영출어람<br>화목반 1강' },
+            '2026-07-06': { type: '월수', text: '영출어람<br>월수반 2강' },
+            '2026-07-07': { type: '화목', text: '영출어람<br>화목반 2강' },
+            '2026-07-08': { type: '월수', text: '영출어람<br>월수반 3강' },
+            '2026-07-09': { type: '화목', text: '영출어람<br>화목반 3강' },
+            '2026-07-13': { type: '월수', text: '영출어람<br>월수반 4강' },
+            '2026-07-14': { type: '화목', text: '영출어람<br>화목반 4강' },
+            '2026-07-15': { type: '월수', text: '영출어람<br>월수반 5강' },
+            '2026-07-16': { type: '화목', text: '영출어람<br>화목반 5강' },
+            '2026-07-20': { type: '월수', text: '영출어람<br>월수반 6강' },
+            '2026-07-21': { type: '화목', text: '영출어람<br>화목반 6강' },
+            '2026-07-22': { type: '월수', text: '영출어람<br>월수반 7강' },
+            '2026-07-23': { type: '화목', text: '영출어람<br>화목반 7강' },
+            '2026-07-27': { type: '월수', text: '영출어람<br>월수반 8강' },
+            '2026-07-28': { type: '화목', text: '영출어람<br>화목반 8강' }
+        };
+
+        const totalDays = 31;
+        const startBlankDays = 3; 
+        const calendarDaysContainer = document.getElementById('calendar-days');
+
+        function initCalendar() {
+            calendarDaysContainer.innerHTML = '';
+
+            for (let i = 0; i < startBlankDays; i++) {
+                const blank = document.createElement('div');
+                blank.className = "h-24 bg-slate-50/50 rounded-xl border border-slate-100/50";
+                calendarDaysContainer.appendChild(blank);
+            }
+
+            for (let day = 1; day <= totalDays; day++) {
+                const dateStr = `2026-07-${String(day).padStart(2, '0')}`;
+                const dayOfWeek = (startBlankDays + day - 1) % 7;
+
+                const dayBox = document.createElement('div');
+                let baseClass = "h-24 p-2 rounded-xl border text-left flex flex-col justify-between ";
+                let bgClass = "bg-white border-slate-100";
+                
+                let dayNumClass = "font-bold text-xs";
+                if (dayOfWeek === 0) dayNumClass += " text-red-500";
+                else if (dayOfWeek === 6) dayNumClass += " text-blue-500";
+                else dayNumClass += " text-slate-400";
+
+                let classContentHtml = '';
+                if (scheduleData[dateStr]) {
+                    const classInfo = scheduleData[dateStr];
+                    if (classInfo.type === '월수') {
+                        bgClass = "bg-blue-50/70 border-blue-200";
+                        classContentHtml = `<div class="text-[11px] font-semibold text-blue-700 leading-tight">${classInfo.text}</div>`;
+                    } else if (classInfo.type === '화목') {
+                        bgClass = "bg-purple-50/70 border-purple-200";
+                        classContentHtml = `<div class="text-[11px] font-semibold text-purple-700 leading-tight">${classInfo.text}</div>`;
+                    }
+                }
+
+                dayBox.className = baseClass + bgClass;
+                dayBox.innerHTML = `
+                    <span class="${dayNumClass}">${day}</span>
+                    <div class="mt-1 w-full flex-1 flex items-end pb-1">
+                        ${classContentHtml}
+                    </div>
+                `;
+
+                calendarDaysContainer.appendChild(dayBox);
+            }
+        }
+
+        window.onload = initCalendar;
+    </script>
+</body>
+</html>
