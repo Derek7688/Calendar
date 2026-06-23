@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2026년 7월 수업 캘린더 (스마트 버전)</title>
+    <title>2026년 7월 수업 캘린더</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700&display=swap');
@@ -11,7 +11,7 @@
         .dark-mode-toggle { transition: all 0.3s ease; }
     </style>
 </head>
-<body id="body-bg" class="bg-slate-50 min-h-screen p-2 md:p-8 flex flex-col items-center justify-center text-slate-800">
+<body id="body-bg" class="bg-slate-50 min-h-screen p-2 md:p-8 flex flex-col items-center justify-center text-slate-800 relative">
 
     <div id="main-card" class="max-w-4xl w-full bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-100 transition-colors duration-300">
         
@@ -24,8 +24,8 @@
                 <p class="text-slate-400 text-xs mt-1">영출어람 월수반 & 화목반 강의 일정</p>
             </div>
             
-            <div class="flex flex-col sm:flex-row items-center gap-3 w-full lg:w-auto">
-                <button onclick="toggleDarkMode()" id="dark-btn" class="w-full sm:w-auto p-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 dark-mode-toggle flex justify-center items-center" title="화면 테마 변경">
+            <div class="flex flex-col sm:flex-row items-center gap-2 w-full lg:w-auto">
+                <button onclick="toggleDarkMode()" id="dark-btn" class="w-full sm:w-auto p-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 dark-mode-toggle flex justify-center items-center">
                     <svg id="sun-icon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
                     </svg>
@@ -34,13 +34,18 @@
                     </svg>
                 </button>
                 
+                <button onclick="openModal()" 
+                   class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-bold text-xs px-3.5 py-3 rounded-xl shadow-md transition-all transform hover:-translate-y-0.5 whitespace-nowrap">
+                    <span>❓ 셋로그 사용 가이드</span>
+                </button>
+
                 <a href="https://setlog.kr/invite/c6woihf" target="_blank" 
-                   class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-bold text-xs px-4 py-3 rounded-xl shadow-md transition-all transform hover:-translate-y-0.5 whitespace-nowrap">
+                   class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-bold text-xs px-3.5 py-3 rounded-xl shadow-md transition-all transform hover:-translate-y-0.5 whitespace-nowrap">
                     <span>💬 7월 셋로그 아지트 초대코드</span>
                 </a>
 
                 <a href="https://omniscient-ship-112.notion.site/Month-A-37a0bc84f514808ab9fcf06d501c73e4" target="_blank" 
-                   class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold text-xs px-4 py-3 rounded-xl shadow-lg shadow-blue-900/20 transition-all transform hover:-translate-y-0.5 whitespace-nowrap">
+                   class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold text-xs px-3.5 py-3 rounded-xl shadow-lg shadow-blue-900/20 transition-all transform hover:-translate-y-0.5 whitespace-nowrap">
                     <span>📁 7월 영출어람 자료</span>
                 </a>
             </div>
@@ -54,7 +59,6 @@
                 <div>Thu</div>
                 <div>Fri</div>
             </div>
-
             <div id="calendar-days" class="grid grid-cols-5 gap-1 md:gap-2"></div>
         </div>
 
@@ -66,6 +70,84 @@
             <div class="flex items-center gap-1.5">
                 <span id="legend-purple" class="w-3 h-3 bg-purple-50 border border-purple-200 rounded"></span>
                 <span class="text-slate-600" id="legend-text-2">화목반 수업</span>
+            </div>
+        </div>
+    </div>
+
+    <div id="guide-modal" class="hidden fixed inset-0 bg-slate-950/65 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
+        <div id="modal-box" class="bg-white max-w-2xl w-full max-h-[90vh] overflow-y-auto rounded-2xl shadow-2xl border border-slate-100 p-6 md:p-8 space-y-5 transition-colors duration-300">
+            
+            <h2 id="modal-title" class="text-base md:text-lg font-black text-slate-900 mb-2 border-b border-slate-100 pb-3">
+                📢 [영출어람] 우리만의 비밀 아지트 '셋로그' 가이드
+            </h2>
+            
+            <div id="modal-body" class="text-xs md:text-sm space-y-5 text-slate-700 leading-relaxed">
+                <p class="font-medium text-slate-600" id="modal-intro">
+                    수업 시간에 다루지 못한 리얼 일상 영어,<br>
+                    이제 우리끼리만 공유하는 비밀 방에서 가볍게 주고받아요!<br>
+                    인스타처럼 거창할 필요도, 밴드처럼 딱딱할 필요도 없습니다. 😎
+                </p>
+
+                <div class="space-y-3">
+                    <h3 class="font-bold text-slate-900" id="m-h-1">1. 📸 무엇을 올리나요?</h3>
+                    <div class="pl-1 space-y-2">
+                        <p>
+                            <strong>• 화면:</strong> 얼굴이 안 나와도 100% 오케이! 👌<br>
+                            셋로그 앱을 실행하고 지금 내 눈앞에 보이는 '아무 화면'이나 '사물'을 가로로 딱 2~3초 찍습니다.<br>
+                            (ex. 출근길 발걸음 👟, 직장 모니터 💻, 마시는 커피 ☕️, 퇴근길 하늘 🌅 등)
+                        </p>
+                        <p class="pt-1">
+                            <strong>• 텍스트:</strong> 사진과 함께 '지금 내 상황이나 감정을 나타내는 영어 딱 한 문장'만 적어주세요.<br>
+                            수업 때 배운 표현을 활용하면 베스트!<br>
+                            틀릴까 봐 걱정 마세요.<br>
+                            아주 쉽고 짧은 영어라도 괜찮습니다!
+                        </p>
+                    </div>
+                </div>
+
+                <div class="space-y-2">
+                    <h3 class="font-bold text-slate-900" id="m-h-2">2. ⏰ 얼마나 자주 올리나요?</h3>
+                    <p class="pl-1">
+                        하루에 딱 2~3번만 생각날 때 참여해 주세요.<br>
+                        매 시간마다 무조건 다 올릴 필요 전혀 없습니다! 🙅‍♂️<br>
+                        일하다가 숨 돌리고 싶을 때, 출퇴근 하다가, 유튜브를 보다가 툭 던져주시면 됩니다.
+                    </p>
+                </div>
+
+                <div class="space-y-2">
+                    <h3 class="font-bold text-slate-900" id="m-h-3">3. 🕊️ 반드시 해야 하나요?</h3>
+                    <p class="pl-1">
+                        100% 자율 참여입니다.<br>
+                        숙제 검사나 의무 인증이 아닙니다.<br>
+                        바쁜 직장 생활 중에 절대 스트레스 받지 마세요! 😉
+                    </p>
+                </div>
+
+                <div id="modal-inner-card" class="p-4 rounded-xl bg-slate-50 border border-slate-200/80 space-y-3">
+                    <p class="font-bold text-slate-900" id="m-b-title">💡 그래도 참여하면 좋은 이유!</p>
+                    <p class="pl-1">
+                        <strong>• 🧑‍🏫 1:1 맞춤 일상 밀착 과외:</strong><br>
+                        내가 쓴 문장에 어색한 문법이나 뉘앙스가 있으면, 댓글로 원어민 표현처럼 꼼꼼하게 교정해 드립니다.<br>
+                        책 밖의 '진짜 내 일상 영어'를 가져갈 수 있어요.
+                    </p>
+                    <p class="pl-1">
+                        <strong>• 🔥 지치지 않는 동기부여:</strong><br>
+                        "나와 같은 직장인들이 이 시간에 각자 치열하게 일하다가, 저녁에 강남역에서 모이는구나!"를 보면서, 함께 끝까지 완주할 에너지를 얻게 됩니다.
+                    </p>
+                </div>
+
+                <div class="text-center font-bold pt-3 border-t border-slate-100" id="modal-summary">
+                    💬 영출어람 크루를 위한 한 줄 요약<br>
+                    <span class="text-blue-600 font-black" id="modal-highlight">
+                        완벽함은 내려놓고, 그냥 편하게 일상을 영어로 '툭' 던져보세요! 우리 비밀 방에서 만나요! 🔓
+                    </span>
+                </div>
+            </div>
+
+            <div class="text-center pt-2">
+                <button onclick="closeModal()" class="w-full sm:w-auto px-6 py-2.5 text-xs font-bold rounded-xl bg-slate-900 hover:bg-slate-800 text-white transition-all shadow-sm">
+                    확인 및 닫기
+                </button>
             </div>
         </div>
     </div>
@@ -160,6 +242,14 @@
             });
         }
 
+        // 모달 열기/닫기 함수
+        function openModal() {
+            document.getElementById('guide-modal').classList.remove('hidden');
+        }
+        function closeModal() {
+            document.getElementById('guide-modal').classList.add('hidden');
+        }
+
         function toggleDarkMode() {
             isDarkMode = !isDarkMode;
             localStorage.setItem('calendarDarkMode', isDarkMode);
@@ -178,25 +268,58 @@
             const bBox = document.getElementById('legend-blue');
             const pBox = document.getElementById('legend-purple');
 
+            // 모달 내부 테마 변수 매핑
+            const mBox = document.getElementById('modal-box');
+            const mTitle = document.getElementById('modal-title');
+            const mBody = document.getElementById('modal-body');
+            const mIntro = document.getElementById('modal-intro');
+            const mh1 = document.getElementById('m-h-1');
+            const mh2 = document.getElementById('m-h-2');
+            const mh3 = document.getElementById('m-h-3');
+            const mInner = document.getElementById('modal-inner-card');
+            const mbTitle = document.getElementById('m-b-title');
+            const mSummary = document.getElementById('modal-summary');
+            const mHighlight = document.getElementById('modal-highlight');
+
             if (isDarkMode) {
-                bodyBg.className = "bg-slate-900 min-h-screen p-2 md:p-8 flex flex-col items-center justify-center text-slate-100";
+                bodyBg.className = "bg-slate-900 min-h-screen p-2 md:p-8 flex flex-col items-center justify-center text-slate-100 relative";
                 mainCard.className = "max-w-4xl w-full bg-slate-950 rounded-2xl shadow-2xl overflow-hidden border border-slate-800 transition-colors duration-300";
                 footerLegend.className = "bg-slate-900 px-6 py-3 border-t border-slate-800 flex justify-center gap-6 text-xs font-medium transition-colors duration-300";
                 
                 txt1.className = "text-slate-400"; txt2.className = "text-slate-400";
                 bBox.className = "w-3 h-3 bg-blue-950 border border-blue-900 rounded";
-                pBox.className = "w-3 h-3 bg-purple-950 border border-purple-900 rounded";
+                pBox.className = "w-3 h-3 bg-purple-950 border border-purple-200 rounded";
+
+                // 모달 다크모드 연동
+                mBox.className = "bg-slate-900 max-w-2xl w-full max-h-[90vh] overflow-y-auto rounded-2xl shadow-2xl border border-slate-800 p-6 md:p-8 space-y-5 transition-colors duration-300 text-slate-300";
+                mTitle.className = "text-base md:text-lg font-black text-white mb-2 border-b border-slate-800 pb-3";
+                mIntro.className = "font-medium text-slate-400";
+                mh1.className = "font-bold text-white"; mh2.className = "font-bold text-white"; mh3.className = "font-bold text-white";
+                mInner.className = "p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-3";
+                mbTitle.className = "font-bold text-slate-200";
+                mSummary.className = "text-center font-bold pt-3 border-t border-slate-800";
+                mHighlight.className = "text-blue-400 font-black";
 
                 sunIcon.classList.remove('hidden');
                 moonIcon.classList.add('hidden');
             } else {
-                bodyBg.className = "bg-slate-50 min-h-screen p-2 md:p-8 flex flex-col items-center justify-center text-slate-800";
+                bodyBg.className = "bg-slate-50 min-h-screen p-2 md:p-8 flex flex-col items-center justify-center text-slate-800 relative";
                 mainCard.className = "max-w-4xl w-full bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-100 transition-colors duration-300";
                 footerLegend.className = "bg-slate-50 px-6 py-3 border-t border-slate-100 flex justify-center gap-6 text-xs font-medium transition-colors duration-300";
                 
                 txt1.className = "text-slate-600"; txt2.className = "text-slate-600";
                 bBox.className = "w-3 h-3 bg-blue-50 border border-blue-200 rounded";
                 pBox.className = "w-3 h-3 bg-purple-50 border border-purple-200 rounded";
+
+                // 모달 라이트모드 연동
+                mBox.className = "bg-white max-w-2xl w-full max-h-[90vh] overflow-y-auto rounded-2xl shadow-2xl border border-slate-100 p-6 md:p-8 space-y-5 transition-colors duration-300 text-slate-700";
+                mTitle.className = "text-base md:text-lg font-black text-slate-900 mb-2 border-b border-slate-100 pb-3";
+                mIntro.className = "font-medium text-slate-600";
+                mh1.className = "font-bold text-slate-900"; mh2.className = "font-bold text-slate-900"; mh3.className = "font-bold text-slate-900";
+                mInner.className = "p-4 rounded-xl bg-slate-50 border border-slate-200/80 space-y-3";
+                mbTitle.className = "font-bold text-slate-900";
+                mSummary.className = "text-center font-bold pt-3 border-t border-slate-100";
+                mHighlight.className = "text-blue-600 font-black";
 
                 sunIcon.classList.add('hidden');
                 moonIcon.classList.remove('hidden');
